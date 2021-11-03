@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/send', function () {
+    broadcast(new App\Events\EveryoneEvent());
+    return response('Sent');
+});
+
+Route::get('/receiver', function () {
+    return view('home');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

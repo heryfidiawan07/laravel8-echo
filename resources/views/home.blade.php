@@ -15,6 +15,10 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <hr>
+
+                    <div id="messages"></div>
                 </div>
             </div>
         </div>
