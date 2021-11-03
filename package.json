@@ -20,5 +20,9 @@
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.11",
         "sass-loader": "^11.0.1"
+    },
+    "dependencies": {
+        "laravel-echo": "^1.11.3",
+        "socket.io-client": "^4.3.2"
     }
 }
