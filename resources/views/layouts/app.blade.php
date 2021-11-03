@@ -85,9 +85,16 @@
         window.Echo.channel('EveryoneChannel')
            .listen('.EveryoneMessage', function (e) {
                 console.log('EveryoneMessage',e)
-               $('#messages').append('<p>' + e.message + '</p>');
+                $('#messages').append('<p>' + e.message + '</p>');
+                playSound()
             })
     })
+
+    function playSound()
+    {
+        const audio = new Audio("{{asset('juntos-607.mp3')}}")
+        audio.play()
+    }
     </script>
 </body>
 </html>
