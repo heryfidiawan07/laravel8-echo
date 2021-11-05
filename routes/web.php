@@ -13,15 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/send', function () {
-    broadcast(new App\Events\EveryoneEvent());
-    return response('Sent');
-});
-
-Route::get('/receiver', function () {
-    return view('home');
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,3 +20,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('global-message', function () {
+    broadcast(new App\Events\EveryoneEvent());
+})->name('global-message');
+
+Route::post('private-message', function() {
+    $user = \App\Models\User::find(request()->id);
+    broadcast(new \App\Events\PrivateEvent($user));
+})->name('private-message');

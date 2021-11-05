@@ -85,16 +85,57 @@
         window.Echo.channel('EveryoneChannel')
            .listen('.EveryoneMessage', function (e) {
                 console.log('EveryoneMessage',e)
-                $('#messages').append('<p>' + e.message + '</p>');
+                $('#global').append('<p>' + e.message + '</p>');
                 playSound()
             })
+
+        @if(auth()->check())
+            window.Echo.private("user-{{auth()->user()->id}}")
+                .listen('.PrivateMessage', (e) => {
+                    console.log('PrivateMessage',e)
+                    $('#private').append('<p>' + e.message + '</p>');
+                    playSound()
+                })
+        @endif
     })
 
-    function playSound()
-    {
+    function playSound() {
         const audio = new Audio("{{asset('juntos-607.mp3')}}")
         audio.play()
     }
+
+    $(document).on('click', '#btn-global', function() {
+        $.ajax({
+            url: $(this).attr('data-url'),
+            type: 'GET',
+            data: '',
+            success: function(res) {
+                console.log('res',res)
+            },
+            error: function(err) {
+                console.log('err',err)
+            }
+        })
+    })
+
+    $(document).on('click', '#btn-private', function() {
+        $.ajax({
+            url: $(this).attr('data-url'),
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                id: $('#user-id').val()
+            },
+            success: function(res) {
+                console.log('res',res)
+            },
+            error: function(err) {
+                console.log('err',err)
+            }
+        })
+    })
     </script>
 </body>
 </html>
