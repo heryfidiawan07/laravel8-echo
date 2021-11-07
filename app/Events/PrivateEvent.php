@@ -16,6 +16,8 @@ class PrivateEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public $from;
+    public $message;
 
     /**
     * The name of the queue connection to use when broadcasting the event.
@@ -36,10 +38,12 @@ class PrivateEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $from, $message)
     {
         // dd($user);
         $this->user = $user;
+        $this->from = $from;
+        $this->message = $message;
     }
 
     /**
@@ -70,7 +74,8 @@ class PrivateEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message'=> $this->user->name
+            'from' => $this->from,
+            'message' => $this->message
         ];
     }
 }

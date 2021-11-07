@@ -14,6 +14,9 @@ use Illuminate\Queue\SerializesModels;
 class EveryoneEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $from;
+    public $message;
     
     /**
     * The name of the queue connection to use when broadcasting the event.
@@ -34,9 +37,10 @@ class EveryoneEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($from, $message)
     {
-        //
+        $this->from = $from;
+        $this->message = $message;
     }
 
     /**
@@ -67,7 +71,8 @@ class EveryoneEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message'=> 'Hello!'
+            'from' => $this->from,
+            'message' => $this->message
         ];
     }
 }

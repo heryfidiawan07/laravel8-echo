@@ -21,11 +21,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('global-message', function () {
-    broadcast(new App\Events\EveryoneEvent());
+Route::post('global-message', function () {
+    broadcast(new App\Events\EveryoneEvent(auth()->user()->name, request()->message));
 })->name('global-message');
 
 Route::post('private-message', function() {
     $user = \App\Models\User::find(request()->id);
-    broadcast(new \App\Events\PrivateEvent($user));
+    broadcast(new \App\Events\PrivateEvent($user, auth()->user()->name, request()->message));
 })->name('private-message');
